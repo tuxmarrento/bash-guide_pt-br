@@ -2,35 +2,35 @@
   <img src="https://cloud.githubusercontent.com/assets/2059754/24601246/753a7f36-1858-11e7-9d6b-7a0e64fb27f7.png" alt="bash logo"/>
 </p>
 
-## Table of Contents
-  1. [Basic Operations](#1-basic-operations)  
-    1.1. [File Operations](#11-file-operations)  
-    1.2. [Text Operations](#12-text-operations)  
-    1.3. [Directory Operations](#13-directory-operations)  
-    1.4. [SSH, System Info & Network Operations](#14-ssh-system-info--network-operations)  
+## Índice
+  1. [Operações Básicas](#1-basic-operations)  
+    1.1. [Operações com Arquivos](#11-file-operations)  
+    1.2. [Operações com Texto](#12-text-operations)  
+    1.3. [Operações com Diretório](#13-directory-operations)  
+    1.4. [SSH, Informações do Sistema & Operações de Rede](#14-ssh-system-info--network-operations)  
     1.5. [Process Monitoring Operations](#15-process-monitoring-operations)
-  2. [Basic Shell Programming](#2-basic-shell-programming)  
-    2.1. [Variables](#21-variables)  
+  2. [Programação Básica com Shell](#2-basic-shell-programming)  
+    2.1. [Variáveis](#21-variables)  
     2.2. [Array](#22-array)  
-    2.3. [String Substitution](#23-string-substitution)  
-    2.4. [Other String Tricks](#24-other-string-tricks)  
-    2.5. [Functions](#25-functions)  
-    2.6. [Conditionals](#26-conditionals)  
+    2.3. [Substituição de String](#23-string-substitution)  
+    2.4. [Outros Truques com Strings](#24-other-string-tricks)  
+    2.5. [Funções](#25-functions)  
+    2.6. [Condicionais](#26-conditionals)  
     2.7. [Loops](#27-loops)  
     2.8. [Regex](#28-regex)  
     2.9. [Pipes](#29-pipes)  
-  3. [Tricks](#3-tricks)  
-  4. [Debugging](#4-debugging)  
+  3. [Truques](#3-tricks)  
+  4. [Depuração](#4-debugging)  
   5. [Multi-threading](#5-multi-threading)
 
-# 1. Basic Operations
+# 1. Operações Básicas
 
 ### a. `export`
-Displays all environment variables. If you want to get details of a specific variable, use `echo $VARIABLE_NAME`.  
+O comando export mostra todas as variáveis de ambiente. Caso você queira obter detalhes de uma variável específica, use `echo $VARIABLE_NAME`.  
 ```bash
 export
 ```
-Example:
+Exemplo:
 ```bash
 $ export
 AWS_HOME=/Users/adnanadnan/.aws
@@ -43,20 +43,20 @@ $ echo $AWS_HOME
 ```
 
 ### b. `whatis`
-whatis shows description for user commands, system calls, library functions, and others in manual pages
+O comando whatis mostra a descrição dos comandos de usuário, system calls, funções de biblioteca e outros, extraídos das páginas de manual
 ```bash
-whatis something
+whatis alguma-coisa
 ```
-Example:
+Exemplo:
 ```bash
 $ whatis bash
 bash (1)             - GNU Bourne-Again SHell
 ```
 
 ### c. `whereis`
-whereis searches for executables, source files, and manual pages using a database built by system automatically.
+O comando whereis busca por executáveis, source files e páginas de manual, usando uma base de dados construída pelo sistema automaticamente.
 ```bash
-whereis name
+whereis nome
 ```
 Example:
 ```bash
@@ -65,18 +65,18 @@ $ whereis php
 ```
 
 ### d. `which`
-which searches for executables in the directories specified by the environment variable PATH. This command will print the full path of the executable(s).
+O comando which busca por executáveis nos diretórios especificados pela variável de ambiente PATH. Este comando vai mostrar o caminho completo do(s) executável(eis).
 ```bash
-which program_name 
+which nome-do-programa
 ```
-Example:
+Exemplo:
 ```bash
 $ which php
 /c/xampp/php/php
 ```
 
 ### e. clear
-Clears content on window.
+O comando clear limpa o conteúdo da janela.
 
 ## 1.1. File Operations
 <table>
@@ -108,32 +108,32 @@ Clears content on window.
 </table>
 
 ### a. `cat`
-It can be used for the following purposes under UNIX or Linux.  
-* Display text files on screen
-* Copy text files  
-* Combine text files  
-* Create new text files  
+Esse pode ser usado no UNIX ou no Linux, para os seguintes propósitos: 
+* Mostrar arquivos de textos na tela;
+* Copiar arquivos de texto;
+* Combinar arquivos de texto;
+* Criar novos arquivos de texto. 
 ```bash
-cat filename
-cat file1 file2 
-cat file1 file2 > newcombinedfile
-cat < file1 > file2 #copy file1 to file2
+cat nome-do-arquivo
+cat arquivo1 arquivo2 
+cat arquivo1 arquivo2 > novo-arquivo-combinado
+cat < arquivo1 > arquivo2 #copia o arquivo1 para o arquivo2
 ```
 
 ### b. `chmod`
-The chmod command stands for "change mode" and allows you to change the read, write, and execute permissions on your files and folders. For more information on this command check this [link](https://ss64.com/bash/chmod.html).
+O comando chmod, acrônimo para "change mode" (alterar modo), permite que você altere as permissões de leitura, escrita e execução dos seus arquivos e pastas. Para mais informações a respeito desse comando, acesse [link](https://ss64.com/bash/chmod.html).
 ```bash
-chmod -options filename
+chmod -opções nome-do-arquivo-ou-pasta
 ```
 
 ### c. `chown`
-The chown command stands for "change owner", and allows you to change the owner of a given file or folder, which can be a user and a group. Basic usage is simple forward first comes the user (owner), and then the group, delimited by a colon.
+O comando chown, acrônimo para "change owner" (alterar proprietário), permite que você altere o proprietário de um determinado arquivo ou pasta, o qual pode ser um usuário ou um grupo. O uso básico é simples: primeiro vem o usuário (proprietário) e depois o grupo, delimitado por dois pontos.
 ```bash
-chown -options user:group filename
+chown -opções usuário:grupo nome-do-arquivo
 ```
 
 ### d. `cp`
-Copies a file from one location to other.  
+O comando cp copia um arquivo de um local para outro.  
 ```bash
 cp filename1 filename2
 ```
