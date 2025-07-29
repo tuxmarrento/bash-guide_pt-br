@@ -8,7 +8,7 @@
     1.2. [Operações com Texto](#12-text-operations)  
     1.3. [Operações com Diretório](#13-directory-operations)  
     1.4. [SSH, Informações do Sistema & Operações de Rede](#14-ssh-system-info--network-operations)  
-    1.5. [Process Monitoring Operations](#15-process-monitoring-operations)
+    1.5. [Operações de Monitoramento de Processos](#15-process-monitoring-operations)
   2. [Programação Básica com Shell](#2-basic-shell-programming)  
     2.1. [Variáveis](#21-variables)  
     2.2. [Array](#22-array)  
@@ -26,7 +26,7 @@
 # 1. Operações Básicas
 
 ### a. `export`
-O comando export mostra todas as variáveis de ambiente. Caso você queira obter detalhes de uma variável específica, use `echo $VARIABLE_NAME`.  
+O comando `export` mostra todas as variáveis de ambiente. Caso você queira obter detalhes de uma variável específica, use `echo $NOME_DA_VARIAVEL`.  
 ```bash
 export
 ```
@@ -43,9 +43,9 @@ $ echo $AWS_HOME
 ```
 
 ### b. `whatis`
-O comando whatis mostra a descrição dos comandos de usuário, system calls, funções de biblioteca e outros, extraídos das páginas de manual
+O comando `whatis` mostra a descrição dos comandos de usuário, system calls, funções de biblioteca e outros, extraídos das páginas de manual
 ```bash
-whatis alguma-coisa
+whatis alguma_coisa
 ```
 Exemplo:
 ```bash
@@ -54,7 +54,7 @@ bash (1)             - GNU Bourne-Again SHell
 ```
 
 ### c. `whereis`
-O comando whereis busca por executáveis, source files e páginas de manual, usando uma base de dados construída pelo sistema automaticamente.
+O comando `whereis` busca por executáveis, source files e páginas de manual, usando uma base de dados construída pelo sistema automaticamente.
 ```bash
 whereis nome
 ```
@@ -65,9 +65,9 @@ $ whereis php
 ```
 
 ### d. `which`
-O comando which busca por executáveis nos diretórios especificados pela variável de ambiente PATH. Este comando vai mostrar o caminho completo do(s) executável(eis).
+O comando `which` busca por executáveis nos diretórios especificados pela variável de ambiente PATH. Este comando vai mostrar o caminho completo do(s) executável(eis).
 ```bash
-which nome-do-programa
+which nome_do_programa
 ```
 Exemplo:
 ```bash
@@ -75,8 +75,8 @@ $ which php
 /c/xampp/php/php
 ```
 
-### e. clear
-O comando clear limpa o conteúdo da janela.
+### e. `clear`
+O comando `clear` limpa o conteúdo da janela.
 
 ## 1.1. File Operations
 <table>
@@ -88,9 +88,9 @@ O comando clear limpa o conteúdo da janela.
       <td><a href="#e-diff">diff</a></td>
       <td><a href="#f-file">file</a></td>
       <td><a href="#g-find">find</a></td>
-      <td><a href="#h-gunzip">gunzip</a></td>
+      <td><a href="#h-gzip">gzip</a></td>
       <td><a href="#i-gzcat">gzcat</a></td>
-      <td><a href="#j-gzip">gzip</a></td>
+      <td><a href="#j-gunzip">gunzip</a></td>
       <td><a href="#k-head">head</a></td>
    </tr>
    <tr>
@@ -114,169 +114,170 @@ Esse pode ser usado no UNIX ou no Linux, para os seguintes propósitos:
 * Combinar arquivos de texto;
 * Criar novos arquivos de texto. 
 ```bash
-cat nome-do-arquivo
+cat nome_do_arquivo
 cat arquivo1 arquivo2 
-cat arquivo1 arquivo2 > novo-arquivo-combinado
+cat arquivo1 arquivo2 > nome_do_arquivo_combinado
 cat < arquivo1 > arquivo2 #copia o arquivo1 para o arquivo2
 ```
 
 ### b. `chmod`
-O comando chmod, acrônimo para "change mode" (alterar modo), permite que você altere as permissões de leitura, escrita e execução dos seus arquivos e pastas. Para mais informações a respeito desse comando, acesse [link](https://ss64.com/bash/chmod.html).
+O comando `chmod`, acrônimo para "change mode" (alterar modo), permite que você altere as permissões de leitura, escrita e execução dos seus arquivos e pastas. Para mais informações a respeito desse comando, acesse [link](https://ss64.com/bash/chmod.html).
 ```bash
-chmod -opções nome-do-arquivo-ou-pasta
+chmod -opcoes nome_do_arquivo
 ```
 
 ### c. `chown`
-O comando chown, acrônimo para "change owner" (alterar proprietário), permite que você altere o proprietário de um determinado arquivo ou pasta, o qual pode ser um usuário ou um grupo. O uso básico é simples: primeiro vem o usuário (proprietário) e depois o grupo, delimitado por dois pontos.
+O comando `chown`, acrônimo para "change owner" (alterar proprietário), permite que você altere o proprietário de um determinado arquivo ou pasta, o qual pode ser um usuário ou um grupo. O uso básico é simples: primeiro vem o usuário (proprietário) e depois o grupo, delimitado por dois pontos.
 ```bash
-chown -opções usuário:grupo nome-do-arquivo
+chown -opcoes usuario:grupo nome_do_arquivo
 ```
 
 ### d. `cp`
-O comando cp copia um arquivo de um local para outro.  
+O comando `cp` copia um arquivo de um local para outro.  
 ```bash
-cp filename1 filename2
+cp nome_do_arquivo1 nome_do_arquivo2
 ```
-Where `filename1` is the source path to the file and `filename2` is the destination path to the file.
+Em que `nome_do_arquivo1` é o caminho do arquivo original e `nome_do_arquivo2` é o caminho para o destino da cópia do arquivo.
 
 ### e. `diff`
-Compares files, and lists their differences.  
+O comando `diff` compara arquivos e lista suas diferenças.  
 ```bash
-diff filename1 filename2
+diff nome_do_arquivo1 nome_do_arquivo2
 ```
 
 ### f. `file`
-Determine file type.  
+O comando `file` determina o tipo do arquivo.  
 ```bash
-file filename
+file nome_do_arquivo
 ```
-Example:
+Exemplo:
 ```bash
 $ file index.html
  index.html: HTML document, ASCII text
 ```
 ### g. `find`
-Find files in directory
+O comando `find` encontra arquivos no diretório.
 ```bash
-find directory options pattern
+find diretorio opcoes parametro
 ```
-Example:
+Exemplo:
 ```bash
 $ find . -name README.md
 $ find /home/user1 -name '*.png'
 ```
 
-### h. `gunzip`
-Un-compresses files compressed by gzip.  
+### h. `gzip`
+O comando `gzip` compacta arquivos.  
 ```bash
-gunzip filename
+gzip nome_do_arquivo
 ```
 
 ### i. `gzcat`
-Lets you look at gzipped file without actually having to gunzip it.  
+O comando `gzcat` permite verificar o conteúdo no arquivo compactado pelo gzip sem precisar descompactá-lo.  
 ```bash
-gzcat filename
+gzcat nome_do_arquivo
 ```
 
-### j. `gzip`
-Compresses files.  
+### j. `gunzip`
+O comando `gunzip` descompacta arquivos compactados pelo gzip.  
 ```bash
-gzip filename
+gunzip nome_do_arquivo
 ```
 
 ### k. `head`
-Outputs the first 10 lines of file  
+O comando `head` exibe as primeiras 10 linhas de um arquivo.
 ```bash
-head filename
+head nome_do_arquivo
 ```
 
 ### l. `less`
-Shows the contents of a file or a command output, one page at a time. It is similar to [more](#q-more), but has more advanced features and allows you to navigate both forward and backward through the file.  
+O comando `less` exibe o conteúdo de um arquivo, ou da saída de um comando, em uma página por vez. Ele é similar ao [more](#q-more), mas possui recursos mais avançados, permitindo navegar tanto para frente quanto para trás, através do arquivo. 
 ```bash
-less filename
+less nome_do_arquivo
 ```
 
 ### m. `lpq`
-Check out the printer queue.  
+O comando `lpq` exibe a fila de impressão.  
 ```bash
 lpq
 ```
-Example:
+Exemplo:
 ```bash
 $ lpq
-Rank    Owner   Job     File(s)                         Total Size
-active  adnanad 59      demo                            399360 bytes
-1st     adnanad 60      (stdin)                         0 bytes
+Rank    Owner   	Job     File(s) 	Total Size
+active  tuxmarrento 	59      README.md 	399360 bytes
+1st     tuxmarrento 	60      (stdin) 	0 bytes
 ```
 
 ### n. `lpr`
-Print the file.  
+O comando `lpr` imprime um arquivo.  
 ```bash
-lpr filename
+lpr nome_do_arquivo
 ```
 
 ### o. `lprm`
-Remove something from the printer queue.  
+O comando `lprm` remove algo da fila de impressão, usando o "número" (ID) do trabalho verificado na coluna "job" do comando lpq.  
 ```bash
-lprm jobnumber
+lprm id_do_trabalho
 ```
 
 ### p. `ls`
-Lists your files. `ls` has many options: `-l` lists files in 'long format', which contains the exact size of the file, who owns the file, who has the right to look at it, and when it was last modified. `-a` lists all files, including hidden files. For more information on this command check this [link](https://ss64.com/bash/ls.html).  
+O comando `ls` lista o conteúdo de um diretório. `ls`possui várias opções: `-l` lista os arquivos em formato estendido, o qual contém o tamanho exato do arquivo, o proprietário, quem tem a permissão para vê-lo e quando foi a última modificação; `-a` lista todos os arquivos, incluindo os ocultos. Para mais informações a respeito desse comando, acesse [link](https://ss64.com/bash/ls.html).  
 ```bash
-ls option
+ls opcao
 ```
-Example:
+Exemplo:
 <pre>
 $ ls -la
-rwxr-xr-x   33 adnan  staff    1122 Mar 27 18:44 .
-drwxrwxrwx  60 adnan  staff    2040 Mar 21 15:06 ..
--rw-r--r--@  1 adnan  staff   14340 Mar 23 15:05 .DS_Store
--rw-r--r--   1 adnan  staff     157 Mar 25 18:08 .bumpversion.cfg
--rw-r--r--   1 adnan  staff    6515 Mar 25 18:08 .config.ini
--rw-r--r--   1 adnan  staff    5805 Mar 27 18:44 .config.override.ini
-drwxr-xr-x  17 adnan  staff     578 Mar 27 23:36 .git
--rwxr-xr-x   1 adnan  staff    2702 Mar 25 18:08 .gitignore
+rwxr-xr-x   33 tuxmarrento  staff    1122 Mar 27 18:44 .
+drwxrwxrwx  60 tuxmarrento  staff    2040 Mar 21 15:06 ..
+-rw-r--r--@  1 tuxmarrento  staff   14340 Mar 23 15:05 .DS_Store
+-rw-r--r--   1 tuxmarrento  staff     157 Mar 25 18:08 .bumpversion.cfg
+-rw-r--r--   1 tuxmarrento  staff    6515 Mar 25 18:08 .config.ini
+-rw-r--r--   1 tuxmarrento  staff    5805 Mar 27 18:44 .config.override.ini
+drwxr-xr-x  17 tuxmarrento  staff     578 Mar 27 23:36 .git
+-rwxr-xr-x   1 tuxmarrento  staff    2702 Mar 25 18:08 .gitignore
 </pre>
 
 ### q. `more`
-Shows the first part of a file (move with space and type q to quit).  
+O comando `more` exibe a primeira parte de um arquivo (mova com a tecla de espaço e digite "q" para sair).  
 ```bash
-more filename
+more nome_do_arquivo
 ```
 
 ### r. `mv`
-Moves a file from one location to other.  
+O comando `mv` move um arquivo de um lugar para outro..  
 ```bash
-mv filename1 filename2
+mv nome_do_arquivo1 nome_do_arquivo2
 ```
-Where `filename1` is the source path to the file and `filename2` is the destination path to the file.
+Em que `nome_do_arquivo1` é o caminho do arquivo original e `nome_do_arquivo2` o caminho para o destino do arquivo.
 
-Also it can be used for rename a file.
+Esse comando também pode ser usado para renomear um arquivo.
 ```bash
-mv old_name new_name
+mv nome_antigo novo_nome
 ```
+Em que `nome_antigo` é o caminho do arquivo e `novo_nome` é o novo nome com o mesmo caminho para o arquivo; caso a linha de comando esteja executando no diretório onde está o arquivo, basta usar somente o nome, dispensando o caminho.
 
 ### s. `rm`
-Removes a file. Using this command on a directory gives you an error.
-`rm: directory: is a directory`
-To remove a directory you have to pass `-r` which will remove the content of the directory recursively. Optionally you can use `-f` flag to force the deletion i.e. without any confirmations etc.
+O comando `rm` remove o arquivo. O uso desse comando com um diretório retorna um erro:
+`rm: diretorio: is a directory`
+Para remover um diretório, deve-se acrescentar a opção `-r`, a qual remove o conteúdo do diretório recursivamente. Opcionalmente, pode-se usar a flag `-f` para forçar a exclusão, i.e., sem quaisquer confirmações etc.
 ```bash
-rm filename
+rm nome_do_arquivo
 ```
 
 ### t. `tail`
-Outputs the last 10 lines of file. Use `-f` to output appended data as the file grows.  
+O comando `tail` exibe as últimas 10 linhas de um arquivo. Use `-f` para exibir os dados apensados (appended: anexados ao final), à medida em que o arquivo cresce.  
 ```bash
-tail filename
+tail nome_do_arquivo
 ```
 
 ### u. `touch`
-Updates access and modification time stamps of your file. If it doesn't exists, it'll be created.
+O comando `touch` atualiza registros de data e hora de acesso e modificação do seu arquivo. Se o arquivo não existir, ele será criado.
 ```bash
-touch filename
+touch nome_do_arquivo
 ```
-Example:
+Exemplo:
 ```bash
 $ touch trick.md
 ```
