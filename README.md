@@ -109,7 +109,7 @@ O comando `clear` limpa o conteúdo da janela.
 
 ### a. `cat`
 O comando `cat` pode ser usado, no UNIX ou no Linux, para os seguintes propósitos: 
-* Mostrar arquivos de textos na tela;
+* Imprimir arquivos de textos na tela;
 * Copiar arquivos de texto;
 * Combinar arquivos de texto;
 * Criar novos arquivos de texto. 
@@ -289,10 +289,10 @@ $ touch trick.md
       <td><a href="#a-awk">awk</a></td>
       <td><a href="#b-cut">cut</a></td>
       <td><a href="#c-echo">echo</a></td>
-      <td><a href="#d-egrep">egrep</a></td>
-      <td><a href="#e-fgrep">fgrep</a></td>
-      <td><a href="#f-fmt">fmt</a></td>
-      <td><a href="#g-grep">grep</a></td>
+      <td><a href="#d-grep">grep</a></td>
+      <td><a href="#e-egrep">egrep</a></td>
+      <td><a href="#f-fgrep">fgrep</a></td>
+      <td><a href="#g-fmt">fmt</a></td>
       <td><a href="#h-nl">nl</a></td>
       <td><a href="#i-sed">sed</a></td>
       <td><a href="#j-sort">sort</a></td>
@@ -305,13 +305,13 @@ $ touch trick.md
 </table>
 
 ### a. `awk`
-awk is the most useful command for handling text files. It operates on an entire file line by line. By default it uses whitespace to separate the fields. The most common syntax for awk command is
+O comando `awk` é o comando mais útil para manipular arquivos de texto. Ele opera em um arquivo inteiro, linha por linha. Por padrão, ele usa espaçoes em branco para separar os campos. A sintaxe mais comum para o comando `awk` é:
 
 ```bash
-awk '/search_pattern/ { action_to_take_if_pattern_matches; }' file_to_parse
+awk '/parametro_de_busca/ { operacao_a_se_realizar_se_o_parametro_for_confirmado; }' arquivo_para_analisar
 ```
 
-Lets take following file `/etc/passwd`. Here's the sample data that this file contains:
+Para fins de exemplo, vamos pegar o seguinte arquivo `/etc/passwd`. Aqui estão os dados de amostra que este arquivo contém:
 ```
 root:x:0:0:root:/root:/usr/bin/zsh
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -319,11 +319,11 @@ bin:x:2:2:bin:/bin:/usr/sbin/nologin
 sys:x:3:3:sys:/dev:/usr/sbin/nologin
 sync:x:4:65534:sync:/bin:/bin/sync
 ```
-So now lets get only username from this file. Where `-F` specifies that on which base we are going to separate the fields. In our case it's `:`. `{ print $1 }` means print out the first matching field.
+Então, agora vamos usar um comando para extrair somente o nome de usuário a partir desse arquivo, em que `-F` especifica a base onde nós vamos separar os campos. No nosso caso, é `:`. O trecho `{ print $1 }` significa extrair o campo correspondente.
 ```bash
 awk -F':' '{ print $1 }' /etc/passwd
 ```
-After running the above command you will get following output.
+Depois de rodar o comando acima, você vai obter o seguinte output:
 ```
 root
 daemon
@@ -331,49 +331,69 @@ bin
 sys
 sync
 ```
-For more detail on how to use `awk`, check following [link](https://www.cyberciti.biz/faq/bash-scripting-using-awk).
+Para mais detalhes a respeito do uso de `awk`, acesse o [link](https://www.cyberciti.biz/faq/bash-scripting-using-awk).
 
 
 ### b. `cut`
-Remove sections from each line of files
+O comando `cut` remove seções de cada linha de arquivos.
 
-*example.txt*
+*exemplo.txt*
 ```bash
-red riding hood went to the park to play
+o garoto de gorro vermelho foi ao parque brincar
 ```
 
-*show me columns 2 , 7 , and 9 with a space as a separator*
+*exibir as colunas 2, 6, e 9 com espaço como separador*
 ```bash
-cut -d " " -f2,7,9 example.txt
+cut -d " " -f2,6,9 exemplo.txt
 ```
 ```bash
-riding park play
+garoto foi brincar
 ```
 
 ### c. `echo`
-Display a line of text
+O comando `echo` exibe uma linha de texto.
 
-*display "Hello World"*
+*exibir "Olá, Mundo"*
 ```bash
-echo Hello World
+echo Olá, Mundo
 ```
 ```bash
-Hello World
+Olá, Mundo!
 ```
 
-*display "Hello World" with newlines between words*
+*exibir "Olá, Mundo" com novas linhas entre as palavras*
 ```bash
-echo -ne "Hello\nWorld\n"
+echo -ne "Olá,\nMundo\n"
 ```
 ```bash
-Hello
-World
+Olá,
+Mundo
 ```
 
-### d. `egrep`
-Print lines matching a pattern - Extended Expression (alias for: 'grep -E')
+### d. `grep`
+O comando `grep` procura texto dentro dos arquivos. Pode-se usá-lo para buscar linhas de texto equivalentes a uma ou mais expressões regulares e extrair somente as linhas correspondentes.
 
-*example.txt*
+```bash
+grep parametro nome_do_arquivo
+```
+Exemplo:
+```bash
+$ grep admin /etc/passwd
+_kadmin_admin:*:218:-2:Kerberos Admin Service:/var/empty:/usr/bin/false
+_kadmin_changepw:*:219:-2:Kerberos Change Password Service:/var/empty:/usr/bin/false
+_krb_kadmin:*:231:-2:Open Directory Kerberos Admin Service:/var/empty:/usr/bin/false
+```
+Pode-se forçar o `grep` a ignorar maiúsculas, usando a opção `-i`. 
+Com `-r`, pode-se buscar todos os arquivos dentro de um diretório específico, por exemplo:
+```bash
+$ grep -r admin /etc/
+```
+E a opção `-w` pode ser usada para buscar somente palavras. Para mais detalhes a respeito do comando `grep`, acesse o [link](https://www.cyberciti.biz/faq/grep-in-bash).
+
+### e. `egrep`
+O comando `egrep` imprime na tela as linhas correspondentes a um parâmetro - Expressão Estendida (alias para: 'grep -E')
+
+*exemplo.txt*
 ```bash
 Lorem ipsum
 dolor sit amet, 
@@ -396,11 +416,13 @@ ipsum dolor sit
 amet.
 ```
 
-*display lines that have either "Lorem" or "dolor" in them.*
+*exiba as linhas que contenham "Lorem" ou "dolor".*
 ```bash
-egrep '(Lorem|dolor)' example.txt
-or
-grep -E '(Lorem|dolor)' example.txt
+egrep '(Lorem|dolor)' exemplo.txt
+```
+ou
+```bash
+grep -E '(Lorem|dolor)' exemplo.txt
 ```
 ```bash
 Lorem ipsum
@@ -411,10 +433,10 @@ sanctus est Lorem
 ipsum dolor sit
 ```
 
-### e. `fgrep`
-Print lines matching a pattern - FIXED pattern matching  (alias for: 'grep -F')
+### f. `fgrep`
+O comando `fgrep` imprime na tela as linhas que correspondam a um parâmetro, exibindo o parâmetro correspondente fixado (alias para: 'grep -F')
 
-*example.txt*
+*exemplo.txt*
 ```bash
 Lorem ipsum
 dolor sit amet,
@@ -438,27 +460,29 @@ ipsum dolor sit
 amet.
 ```
 
-*Find the exact string '(Lorem|dolor)' in example.txt*
+*Econtre a exata string '(Lorem|dolor)' em exemplo.txt*
 ```bash
-fgrep '(Lorem|dolor)' example.txt
-or
-grep -F '(Lorem|dolor)' example.txt
+fgrep '(Lorem|dolor)' exemplo.txt
+```
+ou
+```bash
+grep -F '(Lorem|dolor)' exemplo.txt
 ```
 ```bash
 foo (Lorem|dolor) 
 ```
 
-### f. `fmt`
-Simple optimal text formatter
+### g. `fmt`
+O comando `fmt` é um ótimo formatador simples de texto.
 
-*example: example.txt (1 line)*
+*exemplo.txt (com uma única linha)*
 ```bash
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 ```
 
-*output the lines of example.txt to 20 character width*
+*edite as linhas de exemplo.txt para o comprimento de 20 caracteres*
 ```bash
-cat example.txt | fmt -w 20
+cat exemplo.txt | fmt -w 20
 ```
 ```bash
 Lorem ipsum
@@ -481,29 +505,11 @@ sanctus est Lorem
 ipsum dolor sit
 amet.
 ```
-
-### g. `grep`
-Looks for text inside files. You can use grep to search for lines of text that match one or many regular expressions, and outputs only the matching lines.  
-```bash
-grep pattern filename
-```
-Example:
-```bash
-$ grep admin /etc/passwd
-_kadmin_admin:*:218:-2:Kerberos Admin Service:/var/empty:/usr/bin/false
-_kadmin_changepw:*:219:-2:Kerberos Change Password Service:/var/empty:/usr/bin/false
-_krb_kadmin:*:231:-2:Open Directory Kerberos Admin Service:/var/empty:/usr/bin/false
-```
-You can also force grep to ignore word case by using `-i` option. `-r` can be used to search all files under the specified directory, for example:
-```bash
-$ grep -r admin /etc/
-```
-And `-w` to search for words only. For more detail on `grep`, check following [link](https://www.cyberciti.biz/faq/grep-in-bash).
 
 ### h. `nl`
-Number lines of files
+O comando `nl` enumera linhas de arquivos.
 
-*example.txt*
+*exemplo.txt*
 ```bash
 Lorem ipsum
 dolor sit amet,
@@ -526,9 +532,9 @@ ipsum dolor sit
 amet.
 ```
 
-*show example.txt with line numbers*
+*mostre exemplo.txt com linhas numeradas*
 ```bash
-nl -s". " example.txt 
+nl -s". " exemplo.txt 
 ```
 ```bash
      1. Lorem ipsum
@@ -553,33 +559,33 @@ nl -s". " example.txt
 ```
 
 ### i. `sed`
-Stream editor for filtering and transforming text
+O comando `sed` é um editor de fluxo que filtra e transforma o texto.
 
-*example.txt*
+*exemplo.txt*
 ```bash
-Hello This is a Test 1 2 3 4
+Olá isso é um teste 1 2 3 4
 ``` 
 
-*replace all spaces with hyphens*
+*substitua todos os espaçoes por hífens*
 ```bash
-sed 's/ /-/g' example.txt
+sed 's/ /-/g' exemplo.txt
 ```
 ```bash
-Hello-This-is-a-Test-1-2-3-4
+Olá-isso-é-um-teste-1-2-3-4
 ```
 
-*replace all digits with "d"*
+*substitua todos os dígitos por "d"*
 ```bash
-sed 's/[0-9]/d/g' example.txt
+sed 's/[0-9]/d/g' exemplo.txt
 ```
 ```bash
-Hello This is a Test d d d d
+Olá isso é um teste d d d d
 ```
 
 ### j. `sort`
-Sort lines of text files
+O comando `sort` organiza as linhas de arquivos de texto.
 
-*example.txt*
+*exemplo.txt*
 ```bash
 f
 b
@@ -590,9 +596,9 @@ e
 d
 ```
 
-*sort example.txt*
+*organize exemplo.txt*
 ```bash
-sort example.txt
+sort exemplo.txt
 ```
 ```bash
 a
@@ -604,7 +610,7 @@ f
 g
 ```
 
-*randomize a sorted example.txt*
+*randomize um exemplo.txt organizado*
 ```bash
 sort example.txt | sort -R
 ```
@@ -619,37 +625,37 @@ e
 ```
 
 ### k. `tr`
-Translate or delete characters
+O comando `tr` substitui ou deleta caracteres.
 
-*example.txt*
+*exemplo.txt*
 ```bash
-Hello World Foo Bar Baz!
-```
-
-*take all lower case letters and make them upper case*
-```bash
-cat example.txt | tr 'a-z' 'A-Z' 
-```
-```bash
-HELLO WORLD FOO BAR BAZ!
+Olá Mundo Foo Bar Baz!
 ```
 
-*take all spaces and make them into newlines*
+*substitua todas as minúsculas por maiúsculas*
 ```bash
-cat example.txt | tr ' ' '\n'
+cat exemplo.txt | tr 'a-z' 'A-Z' 
 ```
 ```bash
-Hello
-World
+OLÁ MUNDO FOO BAR BAZ!
+```
+
+*substitua todos os espaços por novas linhas*
+```bash
+cat exemplo.txt | tr ' ' '\n'
+```
+```bash
+Olá
+Mundo
 Foo
 Bar
 Baz!
 ```
 
 ### l. `uniq`
-Report or omit repeated lines
+O comando `uniq` sinaliza ou omite linhas repetidas.
 
-*example.txt*
+*exemplo.txt*
 ```bash
 a
 a
@@ -661,9 +667,9 @@ d
 c
 ```
 
-*show only unique lines of example.txt (first you need to sort it, otherwise it won't see the overlap)*
+*mostre somente uma linha de cada repetição de linhas em exemplo.txt (primeiro você precisa organizá-lo, caso contrário ele não encontrará as repetições)*
 ```bash
-sort example.txt | uniq
+sort exemplo.txt | uniq
 ```
 ```bash
 a
@@ -672,9 +678,9 @@ c
 d
 ```
 
-*show the unique items for each line, and tell me how many instances it found*
+*usando a opção `-c` ou `--count`, mostre somente uma linha de cada repetição de linhas e diga quantas ocorrências delas foram encontradas*
 ```bash
-sort example.txt | uniq -c
+sort exemplo.txt | uniq -c
 ```
 ```bash
     3 a
@@ -683,17 +689,28 @@ sort example.txt | uniq -c
     1 d
 ```
 
+outras opções para o comando `uniq` são:
+- `-d` ou `--repeated`: Exibe somente linhas que são repetidas;
+- `-i` ou `--ignore-case`: Ignora maiúsculas ao comparar as linhas;
+- `-u` ou `--unique`: Exibe somente as linhas sem repetição;
+
 ### m. `wc`
-Tells you how many lines, words and characters there are in a file.  
+O comando `wc` conta a quantidade de linhas, palavras e caracteres existente em um arquivo.  
 ```bash
-wc filename
+wc nome_do_arquivo
 ```
-Example:
+Exemplo:
 ```bash
-$ wc demo.txt
-7459   15915  398400 demo.txt
+$ wc exemplo.txt
+7459   15915  398400 exemplo.txt
 ```
-Where `7459` is lines, `15915` is words and `398400` is characters.
+Onde `7459` é o total de linhas, `15915` é o total de palavras e `398400` é o total de caracteres.
+
+Pode-se ainda filtrar a saída por opções:
+- `-c` ou `--bytes`: imprime na tela o número de bytes;
+- `-m` ou `--chars`: imprime na tela o número de caracteres;
+- `-l` ou `--lines`: imprime na tela o número de linhas;
+- `-w` ou `--words`: imprime na tela o número de palavras;
 
 ## 1.3. Operações com Diretório
 
@@ -706,38 +723,45 @@ Where `7459` is lines, `15915` is words and `398400` is characters.
 </table>
 
 ### a. `cd`
-Moves you from one directory to other. Running this  
+O comando `cd` muda de um diretório para outro.  
 ```bash
 $ cd
 ```
-moves you to home directory. This command accepts an optional `dirname`, which moves you to that directory.
+move para o diretório HOME. 
+Esse comando aceita um nome opcional, o qual pode ser o caminho para esse diretório, mudando você para ele.
 ```bash
-cd dirname
+cd nome_do_diretorio
 ```
-Switch to the previous working directory
+Mude para o diretório anterior:
 ```bash
 cd -
 ```
+Mude para o diretório acima:
+```bash
+cd ..
+```
 
 ### b. `mkdir`
-Makes a new directory.  
+O comando `mkdir` cria um novo diretório.  
 ```bash
-mkdir dirname
+mkdir nome_do_diretorio
 ```
-You can use this to create multiple directories at once within your current directory.
+Pode-se usá-lo para criar múltiplos diretórios de uma só vez dentro do diretório corrente.
 ```bash
-mkdir 1stDirectory 2ndDirectory 3rdDirectory
+mkdir nome_do_diretorio1 nome_do_diretorio2 nome_do_diretorio3
 ```
-You can also use this to create parent directories at the same time with the -p (or --parents) flag. For instance, if you wanted a directory named 'project1' in another subdirectory at '/samples/bash/projects/', you could run:
+Também pode-se usá-lo para criar uma árvore de diretórios — com diretórios "pais" como subdiretórios — ao mesmo tempo, com a opção `-p` ou `--parents`. Por exemplo, caso você queira criar um diretório chamado "projeto1" dentro de um novo subdiretório em "/exemplos/bash/projetos/", você poderia rodar:
 ```bash 
-mkdir -p /samples/bash/projects/project1
-mkdir --parents /samples/bash/projects/project1
+mkdir -p /exemplos/bash/projetos/projeto1
 ```
-Both commands above will do the same thing.
-If any of these directories did no already exist, they would be created as well.
+ou
+```bash 
+mkdir --parents /exemplos/bash/projetos/projeto1
+```
+Caso qualquer um dos diretórios nessa árvore de diretórios não exista, ele será criado também.
 
 ### c. `pwd`
-Tells you which directory you currently are in.  
+Imprime na tela em qual diretório você está no momento.  
 ```bash
 pwd
 ```
@@ -780,157 +804,167 @@ pwd
 </table>
 
 ### a. `bg`
-Lists stopped or background jobs; resume a stopped job in the background.
+O comando `bg` lista trabalhos parados ou em backdround; reinicia um trabalho parado no background.
 
 ### b. `cal`
-Shows the month's calendar.
+O comando `cal` mostra o calendário do mês.
 
 ### c. `date`
-Shows the current date and time.
+O comando `date` mostra o dia e a hora correntes.
 
 ### d. `df`
-Shows disk usage.
+O comando `df` mostra o uso do disco.
 
 ### e. `dig`
-Gets DNS information for domain.  
+O comando `dig` obtém a informação DNS para um domínio.  
 ```bash
-dig domain
+dig dominio.com
 ```
 
 ### f. `du`
-Shows the disk usage of files or directories. For more information on this command check this [link](http://www.linfo.org/du.html)
+O comando `du` mostra o usdo de disco por um arquivo ou diretório. Para mais informações a respeito do comando `du`, acesse o [link](http://www.linfo.org/du.html)
 ```bash
-du [option] [filename|directory]
+du opcao arquivo|diretorio
 ```
-Options:
-- `-h` (human readable) Displays output it in kilobytes (K), megabytes (M) and gigabytes (G).
-- `-s` (supress or summarize) Outputs total disk space of a directory and supresses reports for subdirectories. 
-
-Example:
+Algumas opções:
+- `-h` (leitura humanizada) mostra as informações em kilobytes (K), megabytes (M) ou gigabytes (G).
+- `-s` (supresso ou sumarizado) mostra o uso total de disco por um diretório e suprime informações de subdiretórios.
+Exemplo:
 ```bash
-du -sh pictures
-1.4M pictures
+du -sh imagens
+1.4M imagens
 ```
 
 ### g. `fg`
-Brings the most recent job in the foreground.
+O comando `fg` exibe o trabalho mais recente no foreground.
 
 ### h. `finger`
-Displays information about user.  
+O comando `finger` mostra informações sobre o usuário 
 ```bash
-finger username
+finger usuario
 ```
 ### i. `jobs`
-Lists the jobs running in the background, giving the job number.
+O comando `jobs` lista os trabalhos que estão rodando no background e indica o número (ID) do trabalho.
 
 ### j. `last`
-Lists your last logins of specified user.  
+O comando `last` lista os últimos logins de um usuário específico.  
 ```bash
-last yourUsername
+last nomeDeUsuario
 ```
 
 ### k. `man`
-Shows the manual for specified command.  
+O comando `man` exibe o manual de um determinado comando.  
 ```bash
-man command
+man comando
 ```
 
 ### l. `passwd`
-Allows the current logged user to change their password.
+O comando `passwd` permite mudar a senha do usuário logado.
 
 ### m. `ping`
-Pings host and outputs results.  
+O comando `ping` realiza o ping para o endereço indicado e mostra os resultados.  
 ```bash
 ping host
 ```
 
 ### n. `ps`
-Lists your processes.  
+O comando `ps` lista os processos em atividade. 
+Com a opção `-u`, pode-se filtrar por usuário, ao indicá-lo:
 ```bash
-ps -u yourusername
+ps -u nomeDeUsuario
 ```
-Use the flags ef. e for every process and f for full listing. 
+Use as flags `-ef`: `e` para todos os processos e `f` para lista completa. 
 ```bash
 ps -ef
 ```
 
 ### o. `quota`
-Shows what your disk quota is.  
+O comando `quota` mostra qual a sua cota de uso de disco.  
 ```bash
 quota -v
 ```
 
 ### p. `scp`
-Transfer files between a local host and a remote host or between two remote hosts.
+O comando `scp` permite a transferência de arquivos entre um host local e um host remoto; ou entre dois hosts remotos.
 
-*copy from local host to remote host*
+*copiar de um host local para um host remoto*
 ```bash
-scp source_file user@host:directory/target_file
+scp arquivo_original usuario@host:diretorio/arquivo_alvo
 ```
-*copy from remote host to local host*
+*copiar de um host remoto para um host local*
 ```bash
-scp user@host:directory/source_file target_file
-scp -r user@host:directory/source_folder target_folder
+scp usuario@host:diretorio/arquivo_original arquivo_alvo
 ```
-This command also accepts an option `-P` that can be used to connect to specific port.  
+*para diretórios, como o `-cp`*
 ```bash
-scp -P port user@host:directory/source_file target_file
+scp -r usuario@host:diretorio/diretorio_original diretorio_alvo
+```
+Esse comando também aceita uma opção `-P` que pode ser usada para conectar a uma porta específica.  
+```bash
+scp -P porta usuario@host:diretorio/arquivo_original arquivo_alvo
 ```
 
 ### q. `ssh`
-ssh (SSH client) is a program for logging into and executing commands on a remote machine.  
+O `ssh` (SSH client) é um programa para conectar-se e executar comandos em uma máquina remota. 
 ```bash
-ssh user@host
+ssh usuario@host
 ```
-This command also accepts an option `-p` that can be used to connect to specific port.  
+Esse comando também aceita uma opção `-p` que pode ser usada para conectar a uma porta específica.   
 ```bash
-ssh -p port user@host
+ssh -p porta usuario@host
 ```
 
 ### r. `top`
-Displays your currently active processes.
+O comando `top` exibe os processos ativos no sistema.
 
 ### s. `uname`
-Shows kernel information.  
+O comando `uname` exibe as informações do kernel.  
 ```bash
 uname -a
 ```
 
 ### t. `uptime`
-Shows current uptime.
+O comando `uptime` exibe o tempo corrente de atividade.
 
 ### u. `w`
-Displays who is online.
+O comando `w` exibe quem está logado.
+Com a sintaxe `w opcoes usuario`, pode-se:
+- `-h` ou `--no-header`: suprimir a informação do cabeçalho, mostrando apenas os detalhes do usuário;
+- `-s` ou `--short`: exibir uma saída de formato curto, omitindo o tempo de login, as colunas JCPU e PCPU;
+- `-u` ou `--no-current`: ignorar o processo atual, ver o tempo ocioso e o que o usuário está fazendo;
+- `-i` ou `--ip-addr`: forçar a exibição de endereços IP, em vez de nomes de host, no campo FROM;
+- `-o` ou `--old-style`: usar o formato de saída antigo, imprimindo na tela espaços em branco para tempos ociosos inferiores a um minuto.
 
 ### v. `wget`
-Downloads file.  
+O comando `wget` baixa um arquivo.  
 ```bash
-wget file
+wget arquivo
 ```
 
 ### w. `whoami`
-Return current logged in username.
+O comando `whoami` retorna o usuário atualmente logado.
 
 ### x. `whois`
-Gets whois information for domain.  
+O comando `whois` obtém a informação whois para um domínio.  
 ```bash
-whois domain
+whois dominio
 ```
 
 ### y. `rsync`
-Does the same job as `scp` command, but transfers only changed files. Useful when transferring the same folder to/from server multiple times.
+O comando `rsync` faz o mesmo trabalho do comando `scp`, mas transfere somente arquivos modificados. Muito útil quando se transfere o mesmo diretório para ou de um sevidor várias vezes.
 ```bash
-rsync source_folder user@host:target_folder
-rsync user@host:target_folder target_folder
+rsync diretorio_original usuario@host:diretorio_alvo
+rsync usuario@host:diretorio_original diretorio_alvo
 ```
 
 ### z. `curl`
-Curl is a command-line tool for requesting or sending data using URL syntax. Usefull on systems where you only have terminal available for making various requests.
+Curl é uma ferramenta em linha de comando para requisitar ou enviar dados usando sintaxe URL. Muito útil para sistemas em que você tem somente um terminal disponível para fazer várias requisições.
 ```bash
 curl url
 ```
-Use  `-X` or `--request` to specify which method you would like invoke (GET, POST, DELETE, ...).
-Use `-d <data>` or `--data <data>` to POST data on given URL.
+Algumas opções são:
+- `-X` ou `--request` para especificar qual método você gostaria de invocar (GET, POST, DELETE, ...);
+- `-d <dados>` ou `--data <dados>` para dados de POST request em um determinado URL.
 
 ## 1.5. Operações de Monitoramento de Processos
 
@@ -944,31 +978,31 @@ Use `-d <data>` or `--data <data>` to POST data on given URL.
 </table>
 
 ### a. `kill`
-Kills (ends) the processes with the ID you gave.  
+O comando `kill` encerra o processo usando o PID (Process IDentifier) que você informa.  
 ```bash
 kill PID
 ```
 
 ### b. `killall`
-Kill all processes with the name.  
+O comando `killall` encerra todos os processos com o nome.  
 ```bash
-killall processname
+killall nomeDoProcesso
 ```
 
 ### c. &
-The `&` symbol instructs the command to run as a background process in a subshell.
+O símbolo `&` instrui o comando a rodar como um processo em background num subshell.
 ```bash
-command &
+comando &
 ```
 
 ### d. `nohup`
-nohup stands for "No Hang Up". This allows to run command/process or shell script that can continue running in the background after you log out from a shell.
+`nohup` significa "No Hang Up". Ele permite executar comandos, processos ou scripts que podem continuar sendo executados em segundo plano após você sair de um shell. 
 ```bash
-nohup command
+nohup comando
 ```
-Combine it with `&` to create background processes 
+Combine-o com `&` para criar processos em background.
 ```bash
-nohup command &
+nohup comando &
 ```
 
 # 2. Programação Básica com Shell
@@ -1420,20 +1454,19 @@ sleep 10 & sleep 5 &
 wait
 ```
 
-## Contribution
+## Contribuições
 
-- Report issues [How to](https://help.github.com/articles/creating-an-issue/)
-- Open pull request with improvements [How to](https://help.github.com/articles/about-pull-requests/)
-- Spread the word
+- Relate problemas [How to](https://help.github.com/articles/creating-an-issue/)
+- Abra um pull request com aprimoramentos [How to](https://help.github.com/articles/about-pull-requests/)
+- Compartilhe!
 
-## Translation
-- [Chinese | 简体中文](https://github.com/vuuihc/bash-guide)
-- [Turkish | Türkçe](https://github.com/omergulen/bash-guide)
-- [Japanese | 日本語](https://github.com/itooww/bash-guide)
-- [Russian | Русский](https://github.com/navinweb/bash-guide)
-- [Vietnamese | Tiếng Việt](https://github.com/nguyenvanhieuvn/hoc-bash)
-- [Spanish | Español](https://github.com/mariotristan/bash-guide)
+## Guia Original
+- [Inglês | English](https://github.com/Idnan/bash-guide)
 
-## License
-
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+## Outras Traduções
+- [Chinês | 简体中文](https://github.com/vuuihc/bash-guide)
+- [Espanhol | Español](https://github.com/mariotristan/bash-guide)
+- [Japonês | 日本語](https://github.com/itooww/bash-guide)
+- [Russo | Русский](https://github.com/navinweb/bash-guide)
+- [Turco | Türkçe](https://github.com/omergulen/bash-guide) 
+- [Vietnamita | Tiếng Việt](https://github.com/nguyenvanhieuvn/hoc-bash)
