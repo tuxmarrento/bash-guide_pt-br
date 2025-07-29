@@ -3,24 +3,24 @@
 </p>
 
 ## Índice
-  1. [Operações Básicas](#1-basic-operations)  
-    1.1. [Operações com Arquivos](#11-file-operations)  
-    1.2. [Operações com Texto](#12-text-operations)  
-    1.3. [Operações com Diretório](#13-directory-operations)  
-    1.4. [SSH, Informações do Sistema & Operações de Rede](#14-ssh-system-info--network-operations)  
-    1.5. [Operações de Monitoramento de Processos](#15-process-monitoring-operations)
-  2. [Programação Básica com Shell](#2-basic-shell-programming)  
-    2.1. [Variáveis](#21-variables)  
+  1. [Operações Básicas](#1-operações-básicas)  
+    1.1. [Operações com Arquivo](#11-operações-com-arquivo)  
+    1.2. [Operações com Texto](#12-operações-com-texto)  
+    1.3. [Operações com Diretório](#13-operações-com-diretório)  
+    1.4. [SSH, Informações do Sistema & Operações de Rede](#14-ssh-informações-do-sistema--operações-de-rede)  
+    1.5. [Operações de Monitoramento de Processos](#15-operações-de-monitoramento-de-processos)
+  2. [Programação Básica com Shell](#2-programação-básica-com-shell)  
+    2.1. [Variáveis](#21-variáveis)  
     2.2. [Array](#22-array)  
-    2.3. [Substituição de String](#23-string-substitution)  
-    2.4. [Outros Truques com Strings](#24-other-string-tricks)  
-    2.5. [Funções](#25-functions)  
-    2.6. [Condicionais](#26-conditionals)  
+    2.3. [Substituição de String](#23-substituição-de-string)  
+    2.4. [Outros Truques com Strings](#24-outros-truques-com-strings)  
+    2.5. [Funções](#25-funções)  
+    2.6. [Condicionais](#26-condicionais)  
     2.7. [Loops](#27-loops)  
     2.8. [Regex](#28-regex)  
     2.9. [Pipes](#29-pipes)  
-  3. [Truques](#3-tricks)  
-  4. [Depuração](#4-debugging)  
+  3. [Truques](#3-truques)  
+  4. [Depuração](#4-depuração)  
   5. [Multi-threading](#5-multi-threading)
 
 # 1. Operações Básicas
@@ -43,7 +43,7 @@ $ echo $AWS_HOME
 ```
 
 ### b. `whatis`
-O comando `whatis` mostra a descrição dos comandos de usuário, system calls, funções de biblioteca e outros, extraídos das páginas de manual
+O comando `whatis` mostra a descrição dos comandos de usuário, system calls, funções de biblioteca e outros, extraídos das páginas de manual.
 ```bash
 whatis alguma_coisa
 ```
@@ -58,7 +58,7 @@ O comando `whereis` busca por executáveis, source files e páginas de manual, u
 ```bash
 whereis nome
 ```
-Example:
+Exemplo:
 ```bash
 $ whereis php
 /usr/bin/php
@@ -78,7 +78,7 @@ $ which php
 ### e. `clear`
 O comando `clear` limpa o conteúdo da janela.
 
-## 1.1. File Operations
+## 1.1. Operações com Arquivo
 <table>
    <tr>
       <td><a href="#a-cat">cat</a></td>
@@ -108,7 +108,7 @@ O comando `clear` limpa o conteúdo da janela.
 </table>
 
 ### a. `cat`
-Esse pode ser usado no UNIX ou no Linux, para os seguintes propósitos: 
+O comando `cat` pode ser usado, no UNIX ou no Linux, para os seguintes propósitos: 
 * Mostrar arquivos de textos na tela;
 * Copiar arquivos de texto;
 * Combinar arquivos de texto;
@@ -121,7 +121,7 @@ cat < arquivo1 > arquivo2 #copia o arquivo1 para o arquivo2
 ```
 
 ### b. `chmod`
-O comando `chmod`, acrônimo para "change mode" (alterar modo), permite que você altere as permissões de leitura, escrita e execução dos seus arquivos e pastas. Para mais informações a respeito desse comando, acesse [link](https://ss64.com/bash/chmod.html).
+O comando `chmod`, acrônimo para "change mode" (alterar modo), permite que você altere as permissões de leitura, escrita e execução dos seus arquivos e pastas. Para mais informações a respeito desse comando, acesse este [link](https://ss64.com/bash/chmod.html).
 ```bash
 chmod -opcoes nome_do_arquivo
 ```
@@ -222,7 +222,7 @@ lprm id_do_trabalho
 ```
 
 ### p. `ls`
-O comando `ls` lista o conteúdo de um diretório. `ls`possui várias opções: `-l` lista os arquivos em formato estendido, o qual contém o tamanho exato do arquivo, o proprietário, quem tem a permissão para vê-lo e quando foi a última modificação; `-a` lista todos os arquivos, incluindo os ocultos. Para mais informações a respeito desse comando, acesse [link](https://ss64.com/bash/ls.html).  
+O comando `ls` lista o conteúdo de um diretório. `ls`possui várias opções: `-l` lista os arquivos em formato estendido, o qual contém o tamanho exato do arquivo, o proprietário, quem tem a permissão para vê-lo e quando foi a última modificação; `-a` lista todos os arquivos, incluindo os ocultos. Para mais informações a respeito desse comando, acesse este [link](https://ss64.com/bash/ls.html).  
 ```bash
 ls opcao
 ```
@@ -240,7 +240,7 @@ drwxr-xr-x  17 tuxmarrento  staff     578 Mar 27 23:36 .git
 </pre>
 
 ### q. `more`
-O comando `more` exibe a primeira parte de um arquivo (mova com a tecla de espaço e digite "q" para sair).  
+O comando `more` exibe a primeira parte de um arquivo (mova a exibição com a tecla de espaço e digite "q" para sair). É uma versão mais antiga e simplificada do [less](#l-less), visto acima. 
 ```bash
 more nome_do_arquivo
 ```
@@ -252,7 +252,7 @@ mv nome_do_arquivo1 nome_do_arquivo2
 ```
 Em que `nome_do_arquivo1` é o caminho do arquivo original e `nome_do_arquivo2` o caminho para o destino do arquivo.
 
-Esse comando também pode ser usado para renomear um arquivo.
+O comando `mv` também pode ser usado para renomear um arquivo.
 ```bash
 mv nome_antigo novo_nome
 ```
@@ -282,7 +282,7 @@ Exemplo:
 $ touch trick.md
 ```
 
-## 1.2. Text Operations
+## 1.2. Operações com Texto
 
 <table>
     <tr>
@@ -695,7 +695,7 @@ $ wc demo.txt
 ```
 Where `7459` is lines, `15915` is words and `398400` is characters.
 
-## 1.3. Directory Operations
+## 1.3. Operações com Diretório
 
 <table>
    <tr>
@@ -742,7 +742,7 @@ Tells you which directory you currently are in.
 pwd
 ```
 
-## 1.4. SSH, System Info & Network Operations
+## 1.4. SSH, Informações do Sistema & Operações de Rede
 
 <table>
    <tr>
@@ -932,7 +932,7 @@ curl url
 Use  `-X` or `--request` to specify which method you would like invoke (GET, POST, DELETE, ...).
 Use `-d <data>` or `--data <data>` to POST data on given URL.
 
-## 1.5. Process Monitoring Operations
+## 1.5. Operações de Monitoramento de Processos
 
 <table>
    <tr>
@@ -971,7 +971,7 @@ Combine it with `&` to create background processes
 nohup command &
 ```
 
-# 2. Basic Shell Programming
+# 2. Programação Básica com Shell
 
 
 The first line that you will write in bash script files is called `shebang`. This line in any script determines the script's ability to be executed like a standalone executable without typing sh, bash, python, php etc beforehand in the terminal.
@@ -980,7 +980,7 @@ The first line that you will write in bash script files is called `shebang`. Thi
 #!/usr/bin/env bash
 ```
 
-## 2.1. Variables
+## 2.1. Variáveis
 
 Creating variables in bash is similar to other languages. There are no data types. A variable in bash can contain a number, a character, a string of characters, etc. You have no need to declare a variable, just assigning a value to its reference will create it.
 
@@ -1027,7 +1027,7 @@ ${varname:+word}    # if varname exists and isn't null, return word; otherwise r
 ${varname:offset:length}    # performs substring expansion. It returns the substring of $varname starting at offset and up to length characters
 ```
 
-## 2.3 String Substitution
+## 2.3 Substituição de String
 
 Check some of the syntax on how to manipulate strings
 
@@ -1041,8 +1041,7 @@ ${variable//pattern/string} # the longest match to pattern in variable is replac
 ${#varname}     # returns the length of the value of the variable as a character string
 ```
 
-## 2.4. Other String Tricks
-
+## 2.4. Outros Truques com Strings
 Bash has multiple shorthand tricks for doing various things to strings.
 
 ```bash
@@ -1078,7 +1077,7 @@ case "$var" in
 esac
 ```
 
-## 2.5. Functions
+## 2.5. Funções
 As in almost any programming language, you can use functions to group pieces of code in a more logical way or practice the divine art of recursion. Declaring a function is just a matter of writing function my_func { my_code }. Calling a function is just like calling another program, you just write its name.
 
 ```bash
@@ -1103,7 +1102,7 @@ say "hello world!"
 
 When you run the above example the `hello` function will output "world!". The above two functions `hello` and `say` are identical. The main difference is function `say`. This function, prints the first argument it receives. Arguments, within functions, are treated in the same manner as arguments given to the script.
 
-## 2.6. Conditionals
+## 2.6. Condicionais
 
 The conditional statement in bash is similar to other programming languages. Conditions have many form like the most basic form is `if` expression `then` statement where statement is only executed if expression is true.
 
@@ -1329,7 +1328,7 @@ a+
 Multiple commands can be linked together with a pipe, `|`. A `|` will send the standard-output from command A to the standard-input of command B.
 Pipes can also be constructed with the `|&` symbols. This will send the standard-output **and** standard-error from command A to the standard-input of command B.
 
-# 3. Tricks
+# 3. Truques
 
 ## Set an alias
 
@@ -1398,7 +1397,7 @@ if [ -d "$HOME/bin" ] ; then
 fi
 ```
 
-# 4. Debugging
+# 4. Depuração
 You can easily debug the bash script by passing different options to `bash` command. For example `-n` will not run commands and check for syntax errors only. `-v` echo commands before running them. `-x` echo commands after command-line processing.
 
 ```bash
