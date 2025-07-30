@@ -1233,16 +1233,16 @@ Existe uma ferramenta poderosa para manipular e buscar texto. Aqui estão alguns
 
 <table>
    <tr>
-      <td><a href="#a-ponto">`.` ponto</a></td>
-      <td><a href="#b-asterisco">`*` asterisco</a></td>
-      <td><a href="#c-plus">`+` plus</a></td>
-      <td><a href="#d-interrogação">`?` interrogação</a></td>
-      <td><a href="#c-plus">`|` pipe</a></td>
-      <td><a href="#c-plus">`[]` classe caracter</a></td>
-      <td><a href="#c-plus">`[^]` classe caracter recusado</a></td>
-      <td><a href="#c-plus">`()` agrupamento</a></td>
-      <td><a href="#c-plus">`{}` quantificador</a></td>
-      <td><a href="#c-plus">`\` escape</a></td>
+      <td><a href="#a--ponto">`.` ponto</a></td>
+      <td><a href="#b--asterisco">`*` asterisco</a></td>
+      <td><a href="#c--plus">`+` plus</a></td>
+      <td><a href="#d--interrogação">`?` interrogação</a></td>
+      <td><a href="#c--plus">`|` pipe</a></td>
+      <td><a href="#c--plus">`[]` classe caracter</a></td>
+      <td><a href="#c--plus">`[^]` classe caracter recusado</a></td>
+      <td><a href="#c--plus">`()` agrupamento</a></td>
+      <td><a href="#c--plus">`{}` quantificador</a></td>
+      <td><a href="#c--plus">`\` escape</a></td>
    </tr>
 </table>
 
