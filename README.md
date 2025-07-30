@@ -12,7 +12,7 @@
   2. [Programação Básica com Shell](#2-programação-básica-com-shell)  
     2.1. [Variáveis](#21-variáveis)  
     2.2. [Array](#22-array)  
-    2.3. [Substituição de String](#23-substituição-de-string)  
+    2.3. [Manipulação de String](#23-manipulação-de-string)  
     2.4. [Outros Truques com Strings](#24-outros-truques-com-strings)  
     2.5. [Funções](#25-funções)  
     2.6. [Condicionais](#26-condicionais)  
@@ -20,8 +20,7 @@
     2.8. [Regex](#28-regex)  
     2.9. [Pipes](#29-pipes)  
   3. [Truques](#3-truques)  
-  4. [Depuração](#4-depuração)  
-  5. [Multi-threading](#5-multi-threading)
+  4. [Depuração](#4-depuração)
 
 # 1. Operações Básicas
 
@@ -33,13 +32,13 @@ export
 Exemplo:
 ```bash
 $ export
-AWS_HOME=/Users/adnanadnan/.aws
+AWS_HOME=/Users/tuxmarrento/.aws
 LANG=en_US.UTF-8
 LC_CTYPE=en_US.UTF-8
 LESS=-R
 
 $ echo $AWS_HOME
-/Users/adnanadnan/.aws
+/Users/tuxmarrento/.aws
 ```
 
 ### b. `whatis`
@@ -323,7 +322,7 @@ Então, agora vamos usar um comando para extrair somente o nome de usuário a pa
 ```bash
 awk -F':' '{ print $1 }' /etc/passwd
 ```
-Depois de rodar o comando acima, você vai obter o seguinte output:
+Depois de executar o comando acima, você vai obter a seguinte saída:
 ```
 root
 daemon
@@ -750,7 +749,7 @@ Pode-se usá-lo para criar múltiplos diretórios de uma só vez dentro do diret
 ```bash
 mkdir nome_do_diretorio1 nome_do_diretorio2 nome_do_diretorio3
 ```
-Também pode-se usá-lo para criar uma árvore de diretórios — com diretórios "pais" como subdiretórios — ao mesmo tempo, com a opção `-p` ou `--parents`. Por exemplo, caso você queira criar um diretório chamado "projeto1" dentro de um novo subdiretório em "/exemplos/bash/projetos/", você poderia rodar:
+Também pode-se usá-lo para criar uma árvore de diretórios — com diretórios "pais" como subdiretórios — ao mesmo tempo, com a opção `-p` ou `--parents`. Por exemplo, caso você queira criar um diretório chamado "projeto1" dentro de um novo subdiretório em "/exemplos/bash/projetos/", você poderia executar:
 ```bash 
 mkdir -p /exemplos/bash/projetos/projeto1
 ```
@@ -804,7 +803,7 @@ pwd
 </table>
 
 ### a. `bg`
-O comando `bg` lista trabalhos parados ou em backdround; reinicia um trabalho parado no background.
+O comando `bg` lista trabalhos parados ou em backdround; reinicia um trabalho parado em segundo plano (background).
 
 ### b. `cal`
 O comando `cal` mostra o calendário do mês.
@@ -822,7 +821,7 @@ dig dominio.com
 ```
 
 ### f. `du`
-O comando `du` mostra o usdo de disco por um arquivo ou diretório. Para mais informações a respeito do comando `du`, acesse o [link](http://www.linfo.org/du.html)
+O comando `du` mostra o uso de disco por um arquivo ou diretório. Para mais informações a respeito do comando `du`, acesse o [link](http://www.linfo.org/du.html)
 ```bash
 du opcao arquivo|diretorio
 ```
@@ -836,7 +835,7 @@ du -sh imagens
 ```
 
 ### g. `fg`
-O comando `fg` exibe o trabalho mais recente no foreground.
+O comando `fg` exibe o trabalho mais recente em primeiro plano (foreground).
 
 ### h. `finger`
 O comando `finger` mostra informações sobre o usuário 
@@ -844,7 +843,7 @@ O comando `finger` mostra informações sobre o usuário
 finger usuario
 ```
 ### i. `jobs`
-O comando `jobs` lista os trabalhos que estão rodando no background e indica o número (ID) do trabalho.
+O comando `jobs` lista os trabalhos que estão executando no segundo plano e indica o número (ID) do trabalho.
 
 ### j. `last`
 O comando `last` lista os últimos logins de um usuário específico.  
@@ -972,7 +971,7 @@ Algumas opções são:
    <tr>
       <td><a href="#a-kill">kill</a></td>
       <td><a href="#b-killall">killall</a></td>
-      <td><a href="#c-&">&amp;</a></td>
+      <td><a href="#c-&">&;</a></td>
       <td><a href="#d-nohup">nohup</a></td>
    </tr>
 </table>
@@ -989,8 +988,8 @@ O comando `killall` encerra todos os processos com o nome.
 killall nomeDoProcesso
 ```
 
-### c. &
-O símbolo `&` instrui o comando a rodar como um processo em background num subshell.
+### c. `&`
+O símbolo `&` instrui o comando a executar como um processo em segundo plano num subshell.
 ```bash
 comando &
 ```
@@ -1000,39 +999,45 @@ comando &
 ```bash
 nohup comando
 ```
-Combine-o com `&` para criar processos em background.
+Combine-o com `&` para criar processos em segundo plano.
 ```bash
 nohup comando &
 ```
 
+
 # 2. Programação Básica com Shell
 
 
-The first line that you will write in bash script files is called `shebang`. This line in any script determines the script's ability to be executed like a standalone executable without typing sh, bash, python, php etc beforehand in the terminal.
+A primeira linha que você vai escrever em um arquivo com script bash se chama `shebang`. Em qualquer script, essa linha determina qual interpretador será utilizado para rodar o executável sem precisar digitar sh, bash, python, php etc. previamente no terminal.
 
 ```bash
 #!/usr/bin/env bash
 ```
+Este modelo acima utiliza `env` com a finalidade de localizar o interpretador Bash através da variável de ambiente `$PATH`, sem precisar especificar o caminho exato. Ao especificar o caminho em absoluto — com `#!/usr/bin/bash` — reduz-se a portabilidade do script, enquanto usar `env` previne erros que podem decorrer de alguma alteração de localização ou de nome do executável Bash.
 
 ## 2.1. Variáveis
 
-Creating variables in bash is similar to other languages. There are no data types. A variable in bash can contain a number, a character, a string of characters, etc. You have no need to declare a variable, just assigning a value to its reference will create it.
+Criar variáveis com Bash é similar a outras linguagens. Não existem tipos de dados. Uma variável em Bash pode conter um número, um caracter, uma string de caracteres etc.. Não é necessário declarar uma variável, bastando assinalar um valor para que a sua referência seja criada.
 
-Example:
+Exemplo:
 ```bash
-str="hello world"
+str="Olá, Mundo"
+```
+A linha acima cria uma variável `str` e assinala "Olá, Mundo" como valor para ela. O valor da variável é referenciado colocando um `$`no início do nome da variável.
+Exemplo:
+```bash
+echo $str
+```
+Saída:
+```bash
+Olá, Mundo
 ```
 
-The above line creates a variable `str` and assigns "hello world" to it. The value of variable is retrieved by putting the `$` in the beginning of variable name.
-
-Example:
-```bash
-echo $str   # hello world
-```
 ## 2.2. Array
-Like other languages bash has also arrays. An array is a variable containing multiple values. There's no maximum limit on the size of array. Arrays in bash are zero based. The first element is indexed with element 0. There are several ways for creating arrays in bash which are given below.
 
-Examples:
+Assim como outras linguagens, o Bash também possui arrays. Um array é uma variável que contém múltiplos valores. Não existe um limite máximo para o tamanho do array. Em Bash, o primeiro elemento de um array é indexado como elemento 0. Existem muitas formas para criar arrays em Bash, conforme a seguir.
+
+Exemplos:
 ```bash
 array[0]=val
 array[1]=val
@@ -1040,230 +1045,225 @@ array[2]=val
 array=([2]=val [0]=val [1]=val)
 array=(val val val)
 ```
-To display a value at specific index use following syntax:
 
+Para exibir um valor de um índice específico, use a seguinte sintaxe:
 ```bash
-${array[i]}     # where i is the index
+${array[i]}     # em que i é o índice
 ```
 
-If no index is supplied, array element 0 is assumed. To find out how many values there are in the array use the following syntax:
-
+Se nenhum índice for fornecido, o elmento 0 do array é assumido. Para saber quantos valores exisetem no array, use a seguinte sintaxe:
 ```bash
 ${#array[@]}
 ```
 
-Bash has also support for the ternary conditions. Check some examples below.
-
+O Bash também oferece suporte a condições ternárias. Veja alguns exemplos:
 ```bash
-${varname:-word}    # if varname exists and isn't null, return its value; otherwise return word
-${varname:=word}    # if varname exists and isn't null, return its value; otherwise set it word and then return its value
-${varname:+word}    # if varname exists and isn't null, return word; otherwise return null
-${varname:offset:length}    # performs substring expansion. It returns the substring of $varname starting at offset and up to length characters
+${varname:-word} 		# se o varname existe e não for nulo, retorna o seu valor; caso contrário, retorna word.
+${varname:=word} 		# se o varname existe e não for nulo, retorna o seu valor; caso contrário, define-o como word e retorna o seu valor.
+${varname:+word} 		# se o varname existe e não for nulo, retorna o seu valor; caso contrário, returna null.
+${varname:offset:length} 	# realiza a expansão de substring. Retorna a substring de $varname, começando no ponto de expansão e indo até o final dos caracteres.
 ```
 
-## 2.3 Substituição de String
+## 2.3 Manipulação de String
 
-Check some of the syntax on how to manipulate strings
-
+Veja algumas das formas de sintaxe para manipular strings:
 ```bash
-${variable#pattern}         # if the pattern matches the beginning of the variable's value, delete the shortest part that matches and return the rest
-${variable##pattern}        # if the pattern matches the beginning of the variable's value, delete the longest part that matches and return the rest
-${variable%pattern}         # if the pattern matches the end of the variable's value, delete the shortest part that matches and return the rest
-${variable%%pattern}        # if the pattern matches the end of the variable's value, delete the longest part that matches and return the rest
-${variable/pattern/string}  # the longest match to pattern in variable is replaced by string. Only the first match is replaced
-${variable//pattern/string} # the longest match to pattern in variable is replaced by string. All matches are replaced
-${#varname}     # returns the length of the value of the variable as a character string
+${variavel#parametro} 		# se o parâmetro corresponder ao início do valor da variável, exclui a parte mais curta que corresponde e retorna o restante.
+${variavel##parametro} 		# se o parâmetro corresponder ao início do valor da variável, exclui a parte mais longa que corresponde e retorna o restante.
+${variavel%parametro} 		# se o parâmetro corresponder ao final do valor da variável, exclui a parte mais curta que corresponde e retorna o restante.
+${variavel%%parametro} 		# se o parâmetro corresponder ao final do valor da variável, exclui a parte mais longa que corresponde e retorna o restante.
+${variavel/parametro/string} 	# a correspondência com o parâmetro mais longa na variável é substituída pela string. Apenas a primeira correspondência é substituída.
+${variavel//parametro/string} 	# a correspondência com o parâmetro mais longa na variável é substituída pela string. Todas as correspondências são substituídas.
+${#varname} 			# retorna o comprimento do valor da variável como uma sequência de caracteres.
 ```
 
 ## 2.4. Outros Truques com Strings
-Bash has multiple shorthand tricks for doing various things to strings.
+
+O Bash oferece vários truques de atalho para fazer diversas coisas com strings.
 
 ```bash
-${variable,,}    #this converts every letter in the variable to lowercase
-${variable^^}    #this converts every letter in the variable to uppercase
+${variavel,,} 		# isso converte todas as letras da variável em minúsculas.
+${variavel^^} 		# isso converte todas as letras da variável em maiúsculas.
 
-${variable:2:8}  #this returns a substring of a string, starting at the character at the 2 index(strings start at index 0, so this is the 3rd character),
-                 #the substring will be 8 characters long, so this would return a string made of the 3rd to the 11th characters.
+${variavel:2:8} 	# isso retorna uma substring de uma string, começando no caractere de índice 2 (strings começam no índice 0, como explicitado acima, então esse é o terceiro caractere); a substring terá 8 caracteres, então isso retornaria uma string composta do 3º ao 11º caractere.
 ```
 
-Here are some handy pattern matching tricks
+Aqui estão alguns truques úteis para combinar parâmetros:
+
 ```bash
-if [[ "$variable" == *subString* ]]  #this returns true if the provided substring is in the variable
-if [[ "$variable" != *subString* ]]  #this returns true if the provided substring is not in the variable
-if [[ "$variable" == subString* ]]   #this returns true if the variable starts with the given subString
-if [[ "$variable" == *subString ]]   #this returns true if the variable ends with the given subString
+if [[ "$variavel" == *subString* ]]  	# isso retorna true se a subString fornecida estiver na variável.
+if [[ "$variavel" != *subString* ]]  	# isso retorna true se a subString fornecida não estiver na variável.
+if [[ "$variavel" == subString* ]]   	# isso retorna true se a variável começa com a subString fornecida.
+if [[ "$variavel" == *subString ]]   	# isso retorna true se a variável termina com a subString fornecida.
 ```
-
-
-The above can be shortened using a case statement and the IN keyword
+O truque acima pode ser encurtado usando uma instrução case e a palavra-chave INT:
 ```bash
 case "$var" in
-	begin*)
-		#variable begins with "begin"
+	inicio*)
+		# a variável começa com "inicio"
 	;;
 	*subString*)
-		#subString is in variable
+		# a subString está na variável
 	;;
 
-	*otherSubString*)
-		#otherSubString is in variable
+	*outraSubString*)
+		# uma outraSubString está na variável
 	;;
 esac
 ```
 
 ## 2.5. Funções
-As in almost any programming language, you can use functions to group pieces of code in a more logical way or practice the divine art of recursion. Declaring a function is just a matter of writing function my_func { my_code }. Calling a function is just like calling another program, you just write its name.
+
+Como em quase toda linguagem de programação, você pode usar funções para agrupar trechos de código de forma mais lógica ou praticar a divina arte da recursão. Declarar uma função é apenas uma questão de escrever `function minha_func { meu_codigo }`. Chamar uma função é como chamar outro programa: basta escrever o nome dela.
 
 ```bash
-function name() {
-    shell commands
+function nome() {
+    comandos shell
 }
 ```
 
-Example:
+Exemplo:
 ```bash
 #!/bin/bash
-function hello {
-   echo world!
+function ola {
+   echo mundo!
 }
-hello
+ola
 
-function say {
+function diga {
     echo $1
 }
-say "hello world!"
+diga "ola mundo!"
 ```
-
-When you run the above example the `hello` function will output "world!". The above two functions `hello` and `say` are identical. The main difference is function `say`. This function, prints the first argument it receives. Arguments, within functions, are treated in the same manner as arguments given to the script.
+Ao executar o exemplo acima, a função `ola` retornará "mundo!". As duas funções `ola` e `diga` acima são estruturalmente idênticas. A principal diferença é que a função `diga` imprime o primeiro argumento recebido. Argumentos, dentro de funções, são tratados da mesma maneira que argumentos fornecidos ao script.
 
 ## 2.6. Condicionais
 
-The conditional statement in bash is similar to other programming languages. Conditions have many form like the most basic form is `if` expression `then` statement where statement is only executed if expression is true.
-
+A instrução condicional em Bash é similar a outras linguagens de programação. As condições têm muitas formas, como a mais básica: a expressão `if` seguida da instrução `then`, em que a instrução só é executada se a expressão for verdadeira.
 ```bash
-if [ expression ]; then
-    will execute only if expression is true
+if [ expressao ]; then
+    será executado somente se a expressao for true
 else
-    will execute if expression is false
+     será executado se a expressao for false
 fi
 ```
 
-Sometime if conditions becoming confusing so you can write the same condition using the `case statements`.
-
+Às vezes, as condições se tornam confusas, então você pode escrever a mesma condição usando as instruções `case`.
 ```bash
-case expression in
-    pattern1 )
-        statements ;;
-    pattern2 )
-        statements ;;
+case expressao in
+    parametro1 )
+        instrucoes ;;
+    parametro2 )
+        instrucoes ;;
     ...
 esac
 ```
 
-Expression Examples:
-
+Exemplos de expressão:
 ```bash
-statement1 && statement2  # both statements are true
-statement1 || statement2  # at least one of the statements is true
+instrucao1 && instrucao2 	# ambas instruções são true
+instrucao1 || instrucao2 	# ao menos uma instrução é true
 
-str1=str2       # str1 matches str2
-str1!=str2      # str1 does not match str2
-str1<str2       # str1 is less than str2
-str1>str2       # str1 is greater than str2
--n str1         # str1 is not null (has length greater than 0)
--z str1         # str1 is null (has length 0)
+str1=str2       # str1 corresponde à str2
+str1!=str2      # str1 não corresponde à str2
+str1<str2       # str1 é menor que str2
+str1>str2       # str1 é maior que str2
+-n str1         # str1 é não nula (tem um comprimento maior que 0)
+-z str1         # str1 é nula (tem comprimento 0)
 
--a file         # file exists
--d file         # file exists and is a directory
--e file         # file exists; same -a
--f file         # file exists and is a regular file (i.e., not a directory or other special type of file)
--r file         # you have read permission
--s file         # file exists and is not empty
--w file         # you have write permission
--x file         # you have execute permission on file, or directory search permission if it is a directory
--N file         # file was modified since it was last read
--O file         # you own file
--G file         # file's group ID matches yours (or one of yours, if you are in multiple groups)
+-a arquivo         # o arquivo existe
+-d arquivo         # o arquivo existe e é um diretório
+-e arquivo         # o arquivo existe; o mesmo que -a
+-f arquivo         # o arquivo existe e é regulare (i.e., não é um diretório ou outro tipo especial de arquivo)
+-r arquivo         # você tem permissão de leitura
+-s arquivo         # o arquivo existe e não está vazio
+-w arquivo         # você tem permissão de escrita
+-x arquivo         # você tem permição de execução do arquivo, ou permissão de busca pelo diretório, caso seja um
+-N arquivo         # o arquivo foi modificado desde a última leitura
+-O arquivo         # seu próprio arquivo
+-G arquivo         # o ID de grupo do arquivo corresponde ao seu
 
-file1 -nt file2     # file1 is newer than file2
-file1 -ot file2     # file1 is older than file2
+arquivo1 -nt arquivo2     # arquivo1 é mais novo do que o arquivo2
+arquivo1 -ot arquivo2     # arquivo1 é mais velho do que o arquivo2
 
--lt     # less than
--le     # less than or equal
--eq     # equal
--ge     # greater than or equal
--gt     # greater than
--ne     # not equal
+-lt     # menor que
+-le     # menor que ou igual a
+-eq     # igual a
+-ge     # maior que ou igual a
+-gt     # maior que
+-ne     # não igual a
 ```
 
 ## 2.7. Loops
 
-There are three types of loops in bash. `for`, `while` and `until`.
+Existem três tipos de Loop em Bash. `for`, `while` e `until`.
 
-Different `for` Syntax:
+Sintaxe `for`:
 ```bash
-for name [in list]
+for nome in [lista]
 do
-  statements that can use $name
+  instrucoes que podem usar $nome
 done
-
-for (( initialisation ; ending condition ; update ))
+```
+ou ainda:
+```bash
+for (( inicializacao ; condicao final ; atualizacao ))
 do
-  statements...
+  instrucoes
 done
 ```
 
-`while` Syntax:
+Sintaxe de `while`:
 ```bash
-while condition; do
-  statements
+while condicao; do
+  instrucoes
 done
 ```
 
-`until` Syntax:
+Sintaxe de `until`:
 ```bash
-until condition; do
-  statements
+until condicao; do
+  instrucoes
 done
 ```
 
 # 2.8. Regex
 
-They are a powerful tool for manipulating and searching text. Here are some examples of regular expressions that use each `metacharacter`:
+Existe uma ferramenta poderosa para manipular e buscar texto. Aqui estão alguns exemplos de expressões regulares que usam cada `metacharacter`:
 
 <table>
    <tr>
-      <td><a href="#a-dot">`.`(dot)</a></td>
-      <td><a href="#b-asterisk">`*`(asterisk)</a></td>
-      <td><a href="#c-plus">`+`(plus)</a></td>
-      <td><a href="#d-question_mark">`?`(question mark)</a></td>
-      <td><a href="#c-plus">`|`(pipe)</a></td>
-      <td><a href="#c-plus">`[]`(character class)</a></td>
-      <td><a href="#c-plus">`[^]`(negated character class)</a></td>
-      <td><a href="#c-plus">`()`(grouping)</a></td>
-      <td><a href="#c-plus">`{}`(quantifiers)</a></td>
-      <td><a href="#c-plus">`\`(escape)</a></td>
+      <td><a href="#a-ponto">`.` ponto</a></td>
+      <td><a href="#b-asterisco">`*` asterisco</a></td>
+      <td><a href="#c-plus">`+` plus</a></td>
+      <td><a href="#d-interrogação">`?` interrogação</a></td>
+      <td><a href="#c-plus">`|` pipe</a></td>
+      <td><a href="#c-plus">`[]` classe caracter</a></td>
+      <td><a href="#c-plus">`[^]` classe caracter recusado</a></td>
+      <td><a href="#c-plus">`()` agrupamento</a></td>
+      <td><a href="#c-plus">`{}` quantificador</a></td>
+      <td><a href="#c-plus">`\` escape</a></td>
    </tr>
 </table>
 
-### a. `.` (dot)
-Matches any single character except newline.  
+### a. `.` ponto
+Corresponde a qualquer caracter, exceto uma nova linha. 
 ```bash
-grep h.t file.txt
+grep h.t arquivo.txt
 ```
-Output:
+Saída:
 ```bash
 hat
 hot
 hit
 ```
 
-### b. `*` (asterisk)
-Matches zero or more occurrences of the preceding character or group.
+### b. `*` asterisco
+Corresponde a zero ou mais ocorrências do caracter ou grupo precedente.
 ```bash
-grep ab*c file.txt
+grep ab*c arquivo.txt
 ```
-Output:
+Saída:
 ```bash
 ac
 abc
@@ -1271,12 +1271,12 @@ abbc
 abbbc
 ```
 
-### c. `+` (plus)
-Matches one or more occurrences of the preceding character or group.
+### c. `+` plus
+Corresponde a uma ou mais ocorrências do caracter ou grupo precedente.
 ```bash
-grep ab+c file.txt
+grep ab+c arquivo.txt
 ```
-Output:
+Saída:
 ```bash
 abc
 abbc
@@ -1284,180 +1284,169 @@ abbbc
 abbbbc
 ```
 
-### d. `?` (question mark)
-Matches zero or one occurrence of the preceding character or group.
+### d. `?` interrogação
+Corresponde a zero ou uma ocorrência do caracter ou grupo precedente.
 ```bash
-grep ab?c file.txt
+grep ab?c arquivo.txt
 ```
-Output:
+Saída:
 ```bash
 ac
 abc
 ```
 
-### e. `|` (pipe)
-Matches either the pattern to the left or the pattern to the right.
+### e. `|` pipe
+Corresponde ao parâmetro à esquerda ou ao parâmetro à direita.
 ```bash
-egrep "cat|dog" file.txt
+egrep "gato|cachorro" arquivo.txt
 ```
-Output:
+Saída:
 ```bash
-cat
-dog
-```
-
-### f. `[]` (character class)
-Matches any character inside the brackets.
-```bash
-[aeiou] will match any vowel
-[a-z] will match any lowercase letter
+gato
+cachorro
 ```
 
-### g. `[]` (negated character class)
-Matches any character not inside the brackets.
+### f. `[]` classe caracter
+Corresponde a quaisquer caracteres que estão entre os colchetes.
 ```bash
-[^aeiou] will match any consonant
-[^a-z] will match any non-lowercase letter
+[aeiou] 	# vai corresponder a qualquer vogal
+[a-z] 		# vai corresponder a qualquer letra minúscula
 ```
 
-### h. `()` (grouping)
-Groups multiple tokens together and creates a capture group.
+### g. `[^]` classe caracter recusado
+Corresponde a quaisquer caracteres que não estão entre os colchetes.
 ```bash
-egrep "(ab)+" file.txt
+[^aeiou] 	# vai corresponder a qualquer consoante
+[^a-z] 		# vai corresponder a qualquer caracter que não seja letra minúscula
 ```
 
-Output:
+### h. `()` agrupamento
+Agrupa vários tokens juntos e cria um grupo de captura.
+```bash
+egrep "(ab)+" arquivo.txt
+```
+
+Saída:
 ```bash
 ab
 abab
 ababab
 ```
 
-### i. `{}` (quantifiers)
-Matches a specific number of occurrences of the preceding character or group.
+### i. `{}` quantificador
+Corresponde a um número específico de ocorrências de um caracter ou grupo precedente.
 ```bash
-egrep "a{3}" file.txt
+egrep "a{3}" arquivo.txt
 ```
 
-Output:
+Saída:
 ```bash
 aaa
 aaaa
 aaaaa
 ```
 
-### j. `\` (escape)
-Escapes the next character to match it literally.
+### j. `\` escape
+Remove o significado especial no Bash do próximo caractere para preservar seu valor literal, exceto para o caracter `n`, com o qual cria uma nova linha na combinação `\n`. 
 ```bash
-egrep "a\+" file.txt
+egrep "a\+" arquivo.txt
 ```
 
-Output:
+Saída:
 ```bash
 a+
 ```
-=======
+
+Mais detalhes a respeito do escape podem ser encontrados no [link](https://ss64.com/bash/syntax-quoting.html)
+
 ## 2.9. Pipes
 
-Multiple commands can be linked together with a pipe, `|`. A `|` will send the standard-output from command A to the standard-input of command B.
-Pipes can also be constructed with the `|&` symbols. This will send the standard-output **and** standard-error from command A to the standard-input of command B.
+Vários comandos podem ser vinculados um ao outro através de um pipe, `|`. Um `|` enviará a saída padrão (standard-output) do comando A para a entrada padrão (standard-input) do comando B.
+
+Os pipes também podem ser usados com os símbolos `|&`. Essa combinação enviará o standard-output **e** o erro padrão (standard-error) do comando A para o standard-input do comando B.
+
 
 # 3. Truques
 
-## Set an alias
 
-Run `nano ~/.bash_profile` and add the following line:
-
+## Configurar um Alias
+Execute `nano ~/.bash_profile` e adicione a seguinte linha:
 ```bash
-alias dockerlogin='ssh www-data@adnan.local -p2222'  # add your alias in .bash_profile
+alias dockerlogin='ssh www-data@tuxmarrento.local -p2222'  # adiciona seu alias ao arquivo .bash_profile
 ```
 
-## To quickly go to a specific directory
-
-Run `nano ~/.bashrc` and add the following line:
-
+## Ir rapidamente para um diretório específico
+Execute `nano ~/.bashrc` e adicione a seguinte linha:
 ```bash
 export hotellogs="/workspace/hotel-api/storage/logs"
 ```
 
-Now you can use the saved path:
-
+Agora você pode executar `source ~/.bash_profile` e usar o caminho salvo chamando-o como uma variável:
 ```bash
 source ~/.bashrc
 cd $hotellogs
 ```
 
-## Re-execute the previous command
-
-This goes back to the days before you could rely on keyboards to have an "up" arrow key, but can still be useful. 
-To run the last command in your history
+## Execute novamente o comando anterior
+Isso remonta ao tempo em que ainda não se podia confiar na tecla de seta para cima, mas ainda pode ser útil para executar o último comando do seu histórico.
 ```bash
 !!
 ```
-A common error is to forget to use `sudo` to prefix a command requiring privileged execution. Instead of typing the whole command again, you can:
+
+Um erro comum é esquecer de usar `sudo` como prefixo de um comando que requer execução privilegiada. Em vez de digitar o comando inteiro novamente, você pode:
 ```bash
 sudo !!
 ```
-This would change a `mkdir somedir` into `sudo mkdir somedir`.
+Isso corrigiria um `mkdir qualquerdir` com `sudo mkdir qualquerdir`.
 
-## Exit traps
+## Saia de armadilhas
 
-Make your bash scripts more robust by reliably performing cleanup.
+Torne seus scripts bash mais robustos realizando limpezas de forma confiável.
 
 ```bash
-function finish {
-  # your cleanup here. e.g. kill any forked processes
+function final {
+  # sua limpeza aqui; por exemplo, encerrar qualquer fork de processo
   jobs -p | xargs kill
 }
-trap finish EXIT
+trap final EXIT
 ```
 
-## Saving your environment variables
+## Salvando as suas variáveis de ambiente
 
-When you do `export FOO = BAR`, your variable is only exported in this current shell and all its children, to persist in the future you can simply append in your `~/.bash_profile` file the command to export your variable
+Quando você faz `export FOO=BAR`, a sua variável é exportada apenas no shell atual e todos os seus filhos. Para persistir em outras sessões, você pode simplesmente anexar ao seu arquivo `~/.bash_profile` o comando para exportar suas variáveis.
 ```bash
 echo export FOO=BAR >> ~/.bash_profile
 ```
 
-## Accessing your scripts
+## Acessando os seus scripts
 
-You can easily access your scripts by creating a bin folder in your home with `mkdir ~/bin`, now all the scripts you put in this folder you can access in any directory.
+Você pode acessar os seus scripts facilmente criando um diretório bin em seu diretório home com `mkdir ~/bin`. Agora, todos os scripts que você colocar nessa pasta poderão ser acessados em qualquer diretório.
 
-If you can not access, try append the code below in your `~/.bash_profile` file and after do `source ~/.bash_profile`.
+Se você não conseguir acessar, tente acrescentar o código abaixo ao seu arquivo `~/.bash_profile` e depois execute `source ~/.bash_profile`.
 ```bash
-# set PATH so it includes user's private bin if it exists
+# defina o PATH para incluir o bin privado do usuário, se existir
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 ```
 
+
 # 4. Depuração
-You can easily debug the bash script by passing different options to `bash` command. For example `-n` will not run commands and check for syntax errors only. `-v` echo commands before running them. `-x` echo commands after command-line processing.
+
+Você pode depurar facilmente o script bash passando diferentes opções para o comando `bash`. Por exemplo: 
+- `-n` não executará comandos e verificará apenas erros de sintaxe;
+- `-v` mostrará os comandos antes de executá-los;
+- `-x` mostrará os comandos após o processamento da linha de comando.
 
 ```bash
-bash -n scriptname
-bash -v scriptname
-bash -x scriptname
-```
-
-# 5. Multi-threading
-You can easily multi-threading your jobs using `&`. All those jobs will then run in the background simultaneously and you can see the processes below are running using `jobs`.
-
-```bash
-sleep 15 & sleep 5 &
-```
-
-The optional `wait` command will then wait for all the jobs to finish.
-
-```bash
-sleep 10 & sleep 5 &
-wait
+bash -n nomeDoScript
+bash -v nomeDoScript
+bash -x nomeDoScript
 ```
 
 ## Contribuições
-
-- Relate problemas [How to](https://help.github.com/articles/creating-an-issue/)
-- Abra um pull request com aprimoramentos [How to](https://help.github.com/articles/about-pull-requests/)
+- Identificou algum erro ou problema? Por favor, relate. [Saiba como.](https://help.github.com/articles/creating-an-issue/)
+- Abra um pull request com aprimoramentos. [Saiba como.](https://help.github.com/articles/about-pull-requests/)
 - Compartilhe!
 
 ## Guia Original
